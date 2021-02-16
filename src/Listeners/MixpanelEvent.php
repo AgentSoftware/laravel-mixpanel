@@ -13,11 +13,11 @@ class MixpanelEvent
             $profileData = $this->getProfileData($user);
             $profileData = array_merge($profileData, $event->profileData);
 
-            app('mixpanel')->identify($user->getKey());
-            app('mixpanel')->people->set($user->getKey(), $profileData, request()->ip());
+            app('mixpanel')->identify($user->uuid);
+            app('mixpanel')->people->set($user->uuid, $profileData, request()->ip());
 
             if ($event->charge !== 0) {
-                app('mixpanel')->people->trackCharge($user->id, $event->charge);
+                app('mixpanel')->people->trackCharge($user->uuid, $event->charge);
             }
 
             foreach ($event->trackingData as $eventName => $data) {
